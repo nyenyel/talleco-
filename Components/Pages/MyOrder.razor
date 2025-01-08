@@ -1,0 +1,41 @@
+﻿@page "/my-order"
+@rendermode InteractiveServer
+
+<PageTitle>My Order</PageTitle>
+
+<h1>My Order</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Net Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in order)
+        {
+            <tr>
+                <td>@data.id</td>
+                <td>
+                    @foreach (var subData in data.items)
+                    {
+                        <div>
+                            <span>Item ID: @subData.id</span><br />
+                            <span>Net Price: @subData.retailCost</span>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Order> order = new List<Order>();
+    
+    protected override async Task OnInitializedAsync(){
+        string filePath = "wwwroot/data/orders.json";
+        order = await OrderHelper.LoadOrderAsync(filePath);
+    }
+}

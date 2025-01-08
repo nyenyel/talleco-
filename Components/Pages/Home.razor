@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<PageTitle>Store</PageTitle>
+
+<h1>Store</h1>
+
+Welcome to <thead> Store</thead>.
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in product)
+        {
+            <tr>
+                <td>@data.product_name</td>
+                <td>@data.cost USD</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Product> product = new List<Product>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        string filePath = "wwwroot/data/products.json";
+        product = await ProductHelper.LoadProductAsync(filePath);
+    }
+
+}
